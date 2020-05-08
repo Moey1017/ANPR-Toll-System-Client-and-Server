@@ -3,11 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CA5;
+package CA6;
 
 import Exceptions.DaoException;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringReader;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -19,11 +26,15 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonBuilderFactory;
+import javax.json.JsonObject;
 
 /**
  *
- * D00217017 Jing Sheng Moey 
- * SD2A
+ * D00217017 Jing Sheng Moey SD2A
  */
 public class TollSystem
 {
@@ -31,30 +42,29 @@ public class TollSystem
     private final Scanner sc = new Scanner(System.in);
     private final VehicleDAOInterface IVehicleDao = new MySqlVehicleDAO();
     private final TollEventDAOInterface ITollEventDao = new MySqlTollEventDAO();
-    private final Set<String> vehiclesList = getAllVehicleRegInString();
+    private final Set<String> vehiclesList = new TreeSet<>();
     private ArrayList<TollEvent> invalidList = new ArrayList<>();
     private Map<String, ArrayList<TollEvent>> tollEventsInMemory = new TreeMap<>();
-    
+
     // File paths
-    private final String VEHICLE_FILE_PATH      = "Vehicles.csv";
-    private final String TOLL_EVENTS_FILE_PATH  = "Toll-Events.csv";
-    
+    private final String VEHICLE_FILE_PATH = "Vehicles.csv";
+    private final String TOLL_EVENTS_FILE_PATH = "Toll-Events.csv";
+
     //Error Message
-    private final String ERROR                  = "Something Went Wrong.";
+    private final String ERROR = "Something Went Wrong.";
     private final String ERROR_FORMAT_INCORRECT = "Format Incorect.";
-    
+
     //Message
-    private final String MSG_GOOD_BYE           = "GoodBye.";
-    private final String MSG_READ               = "have been read in memory.";
-    private final String MSG_NO_RECORD          = "No Record has been found.";
-    private final String MSG_QUIT               = "Do you sure to quit system?(Y/N)";
-    private final String MSG_VALID_OPTIONS      = "[0-9]";
-    private final String MSG_SELECT_OPTION      = "Please select an option.";
-    private final String MSG_RECORDS_FOUND      = "record(s) has been found.";
+    private final String MSG_GOOD_BYE = "GoodBye.";
+    private final String MSG_READ = "have been read in memory.";
+    private final String MSG_NO_RECORD = "No Record has been found.";
+    private final String MSG_QUIT = "Do you sure to quit system?(Y/N)";
+    private final String MSG_VALID_OPTIONS = "[0-9]";
+    private final String MSG_SELECT_OPTION = "Please select an option.";
+    private final String MSG_RECORDS_FOUND = "record(s) has been found.";
 
     /**
-     * First Starting point
-     * Run Application
+     * First Starting point Run Application
      */
     public void run()
     {
@@ -119,7 +129,7 @@ public class TollSystem
         }
         System.out.println(MSG_GOOD_BYE);
     }
-
+    
     /**
      * Prints the systems menu options.
      */
@@ -226,7 +236,8 @@ public class TollSystem
 
     /**
      * getAllVehicleRegInString
-     * @return a set vehicle registration numbers 
+     *
+     * @return a set vehicle registration numbers
      */
     private Set<String> getAllVehicleRegInString()
     {
@@ -240,7 +251,8 @@ public class TollSystem
     }
 
     /**
-     * Check if this registration is existed 
+     * Check if this registration is existed
+     *
      * @param regNum vehicle registration number
      * @return true of false
      */
@@ -250,7 +262,8 @@ public class TollSystem
     }
 
     /**
-     * Get all toll events from file 
+     * Get all toll events from file
+     *
      * @param filePath toll events file path
      * @return a Map of String, ArrayList of TollEvent
      */
@@ -285,7 +298,7 @@ public class TollSystem
                     }
                     else
                     {
-                        if(!invalidList.contains(t))
+                        if (!invalidList.contains(t))
                         {
                             invalidList.add(t);
                         }
@@ -305,13 +318,13 @@ public class TollSystem
      */
     private void scanTollEventFileToMemory()
     {
-        tollEventsInMemory = scanTollEventsFile(TOLL_EVENTS_FILE_PATH); // read toll system into memory
+        tollEventsInMemory = scanTollEventsFile("Toll-Events.csv"); // read toll system into memory
         if (!tollEventsInMemory.isEmpty())
         {
             int count = 0;
-            
+
             Set<String> keys = tollEventsInMemory.keySet();
-            for(String k : keys)
+            for (String k : keys)
             {
                 count += tollEventsInMemory.get(k).size();
             }
@@ -348,11 +361,11 @@ public class TollSystem
         {
             System.out.println("It's Empty!Fail to insert.");
         }
-
     }
 
     /**
-     * read all toll events into a Map from database into memory 
+     * read all toll events into a Map from database into memory
+     *
      * @return Map of String, ArrayList of TollEvent
      */
     private Map<String, ArrayList<TollEvent>> readTollEventsFromDatabaseIntoMap()
@@ -369,7 +382,8 @@ public class TollSystem
     }
 
     /**
-     * read all toll events into a list from database into memory 
+     * read all toll events into a list from database into memory
+     *
      * @return List of tollEvents
      */
     private List<TollEvent> readTollEventsFromDatabaseIntoList() // this
@@ -442,7 +456,6 @@ public class TollSystem
             Utilities.printLine("*", 75);
         }
     }
- 
 
     /**
      * Display a set of toll Events
@@ -489,14 +502,14 @@ public class TollSystem
                 System.out.printf("|%-28s|\n", registrations);
                 count++;
             }
-            System.out.printf("|%-28s|\n",count + MSG_RECORDS_FOUND);
+            System.out.printf("|%-28s|\n", count + MSG_RECORDS_FOUND);
             Utilities.printLine("*", 30);
         }
     }
 
     /**
      *
-     * @param inputReg registration to be searched 
+     * @param inputReg registration to be searched
      * @return a set of toll event associated with the registration number
      */
     private Set<TollEvent> getTollEventWithReg(String inputReg)
@@ -536,6 +549,7 @@ public class TollSystem
 
     /**
      * get toll events since a specific time
+     *
      * @return a set of toll events
      */
     private Set<TollEvent> getTollEventSinceTimeOf()
@@ -566,6 +580,7 @@ public class TollSystem
 
     /**
      * get toll events between a specific Date and time
+     *
      * @return a set of toll events
      */
     private Set<TollEvent> getTollEventBetweenTimeOf()
@@ -607,7 +622,8 @@ public class TollSystem
 
     /**
      * get all registration number that has passed toll
-     * @return a set of registration number 
+     *
+     * @return a set of registration number
      */
     private Set<String> getRegPassToll()
     {
@@ -621,7 +637,7 @@ public class TollSystem
         }
         return regList;
     }
-    
+
     /**
      * Get and Display registration that has passed toll
      */
@@ -636,10 +652,10 @@ public class TollSystem
         try
         {
             ITollEventDao.cleanUpTollEvents(); // trauncate table 
-        }catch(DaoException e)
+        } catch (DaoException e)
         {
             System.out.println(e.getMessage());
         }
-        
+
     }
 }

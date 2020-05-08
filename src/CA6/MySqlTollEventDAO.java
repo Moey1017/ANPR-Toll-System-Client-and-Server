@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CA5;
+package CA6;
 
 import Exceptions.DaoException;
 import java.sql.Connection;

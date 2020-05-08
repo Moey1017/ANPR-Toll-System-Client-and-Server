@@ -3,7 +3,7 @@ Name: Jing Sheng Moey
 DNumber : D00217017
 Class: SD2A
  */
-package CA5;
+package CA6;
 
 import java.net.URL;
 import java.sql.Timestamp;
@@ -51,7 +51,7 @@ public class Utilities
         {
             try
             {
-                System.out.print(msg + ">");
+                System.out.print(msg + " > ");
                 user_input = input.nextInt();
                 input.nextLine();
                 while ((user_input < min) || (user_input > max))

@@ -3,25 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CA5;
+package PartB;
+
+import Exceptions.DaoException;
+import java.util.ArrayList;
 
 /**
  *
- * D00217017 Jing Sheng Moey 
- * SD2A
+ * @author HP
  */
-public class MainApp
+public class Main
 {
+
     public static void main(String[] args)
     {
         try
         {
-            TollSystem tollSystem = new TollSystem();
-            tollSystem.run();
-        }
-        catch(Exception e)
+            TollBillingSystem bs = new TollBillingSystem();
+            bs.run();
+        }catch(Exception e)
         {
             System.out.println(e.getMessage());
         }
+
     }
+
 }
