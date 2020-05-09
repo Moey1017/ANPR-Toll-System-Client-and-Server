@@ -29,7 +29,7 @@ import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emp
 
 /**
  *
- * @author HP
+ * D00217017 Jing Sheng Moey SD2A
  */
 public class MySqlAllDaoTest
 {
@@ -69,28 +69,17 @@ public class MySqlAllDaoTest
     public void testGetAllTollEventsByCustomerId() throws Exception
     {
         System.out.println("getAllTollEventsByCustomerId");
-        int customerId = 0;
+        int customerId = 1;
         MySqlAllDao instance = new MySqlAllDao();
-        ArrayList<TollEvent> expResult = null;
+        ArrayList<TollEvent> expResult = new ArrayList<>();
+        TollEvent t1 = new TollEvent(1,1,123424, Instant.parse("2020-02-16T11:16:50Z"), "Car", 3.0, "152DL345");
+        TollEvent t2 = new TollEvent(2,1,32939, Instant.parse("2020-02-14T22:15:38Z"), "Car", 3.0, "152DL345");
+        TollEvent t3 = new TollEvent(3,2,655218, Instant.parse("2020-02-17T18:20:06Z"), "Van", 5.2, "161C3457");
+        expResult.add(t1);
+        expResult.add(t2);
+        expResult.add(t3);
         ArrayList<TollEvent> result = instance.getAllTollEventsByCustomerId(customerId);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getTotalBill method, of class MySqlAllDao.
-     */
-    @Test
-    public void testGetTotalBill() throws Exception
-    {
-        System.out.println("getTotalBill");
-        MySqlAllDao instance = new MySqlAllDao();
-        double expResult = 0.0;
-        double result = instance.getTotalBill();
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -100,13 +89,50 @@ public class MySqlAllDaoTest
     public void testGetCustomerDetailLogIn() throws Exception
     {
         System.out.println("getCustomerDetailLogIn");
-        int customerId = 0;
+        int customerId = 1;
         MySqlAllDao instance = new MySqlAllDao();
-        Customer expResult = null;
+        Customer expResult = new Customer(1, "Moey", "15b setanta ");
         Customer result = instance.getCustomerDetailLogIn(customerId);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    }
+    
+    /**
+     * Test of getCustomerDetailLogIn method, of class MySqlAllDao.
+     */
+    @Test
+    public void testGetCustomerDetailLogIn1() throws Exception
+    {
+        System.out.println("getCustomerDetailLogIn");
+        int customerId = 2;
+        MySqlAllDao instance = new MySqlAllDao();
+        Customer expResult = new Customer(2, "Alicia", "12 orchar road, dublin");
+        Customer result = instance.getCustomerDetailLogIn(customerId);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getTotalBill method, of class MySqlAllDao.
+     */
+    @Test
+    public void testGetTotalBill() throws Exception
+    {
+        System.out.println("getTotalBill");
+        int customerId = 1;
+        MySqlAllDao instance = new MySqlAllDao();
+        double expResult = 11.2;
+        double result = instance.getTotalBill(customerId);
+        assertEquals(expResult, result, 0.02);
+    }
+    
+    @Test
+    public void testGetTotalBill1() throws Exception
+    {
+        System.out.println("getTotalBill");
+        int customerId = 5;
+        MySqlAllDao instance = new MySqlAllDao();
+        double expResult = 0;
+        double result = instance.getTotalBill(customerId);
+        assertEquals(expResult, result, 0.02);
     }
     
 }

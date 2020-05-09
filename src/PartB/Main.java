@@ -10,11 +10,15 @@ import java.util.ArrayList;
 
 /**
  *
- * @author HP
+ * D00217017 Jing Sheng Moey SD2A
  */
 public class Main
 {
 
+    /**
+     * Main app 
+     * @param args
+     */
     public static void main(String[] args)
     {
         try

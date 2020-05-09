@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author HP
+ * D00217017 Jing Sheng Moey SD2A
  */
 public class TollBillingSystem
 {
@@ -26,6 +26,11 @@ public class TollBillingSystem
     private final AllDAOInterface IAllDAO = new MySqlAllDao();
 
     //initialize customer 
+
+    /**
+     *
+     * @param c
+     */
     public TollBillingSystem(Customer c)
     {
         this.customer = c;
@@ -34,6 +39,9 @@ public class TollBillingSystem
         this.PayStatus = false;
     }
 
+    /**
+     *
+     */
     public TollBillingSystem()
     {
         this.customer = new Customer();
@@ -42,46 +50,81 @@ public class TollBillingSystem
         this.PayStatus = false;
     }
 
+    /**
+     *setCustomer
+     * @param customer
+     */
     public void setCustomer(Customer customer)
     {
         this.customer = customer;
     }
 
+    /**
+     *setPayStatus
+     * @param PayStatus
+     */
     public void setPayStatus(boolean PayStatus)
     {
         this.PayStatus = PayStatus;
     }
 
+    /**
+     * setTotalFee
+     * @param totalFee
+     */
     public void setTotalFee(double totalFee)
     {
         this.totalFee = totalFee;
     }
 
+    /**
+     * setTollEvents
+     * @param tollEvents
+     */
     public void setTollEvents(ArrayList<TollEvent> tollEvents)
     {
         this.tollEvents = tollEvents;
     }
 
+    /**
+     * check pay status
+     * @return
+     */
     public boolean isPayStatus()
     {
         return PayStatus;
     }
 
+    /**
+     * getCustomer
+     * @return
+     */
     public Customer getCustomer()
     {
         return customer;
     }
 
+    /**
+     * getTotalFee
+     * @return
+     */
     public double getTotalFee()
     {
         return totalFee;
     }
 
+    /** 
+     * getTollEvents
+     * @return
+     */
     public ArrayList<TollEvent> getTollEvents()
     {
         return tollEvents;
     }
 
+    /**
+     * displayAllFees
+     */
     public void displayAllFees()
     {
         int totalFee = 0;
@@ -93,6 +136,10 @@ public class TollBillingSystem
         System.out.println("Total Fee :" + totalFee);
     }
 
+    /**
+     * getCustomerDetails by id
+     * @param id
+     */
     public void getCustomerDetails(int id)
     {
         ArrayList<TollEvent> tollEventLists = new ArrayList<>();
@@ -105,11 +152,17 @@ public class TollBillingSystem
         }
     }
 
+    /**
+     * run system
+     */
     public void run()
     {
         loginMenu();
     }
 
+    /**
+     * loginMenu
+     */
     public void loginMenu()
     {
         boolean running = true;
@@ -154,6 +207,9 @@ public class TollBillingSystem
         }
     }
 
+    /**
+     * login menu 
+     */
     public void displayLoginMenu()
     {
         ArrayList<String> menu = new ArrayList<>();
@@ -168,6 +224,9 @@ public class TollBillingSystem
         }
     }
 
+    /**
+     * main menu for paying bills
+     */
     public void runMainMenu()
     {
         System.out.println("\nWelcome " + this.customer.getCustomer_name() + ", You have been logged in successfully.");
@@ -182,7 +241,7 @@ public class TollBillingSystem
                     checkBillStatus();
                     break;
                 case 2:
-                    displayAllBills();
+                    displayAllTollEvents();
                     break;
                 case 3:
                     payBill();
@@ -202,6 +261,9 @@ public class TollBillingSystem
 
     }
 
+    /**
+     * displaying main menu 
+     */
     public void displayMainMenu()
     {
         ArrayList<String> menu = new ArrayList<>();
@@ -218,18 +280,24 @@ public class TollBillingSystem
         }
     }
 
+    /** 
+     * getAllTollEventsAndSumByCustomerIdFromDatabase
+     */
     public void getAllTollEventsAndSumByCustomerIdFromDatabase()
     {
         try
         {
             this.tollEvents = IAllDAO.getAllTollEventsByCustomerId(this.customer.getCustomer_id());
-            this.totalFee = IAllDAO.getTotalBill();
+            this.totalFee = IAllDAO.getTotalBill(this.customer.getCustomer_id());
         } catch (DaoException e)
         {
             System.out.println(e.getMessage());
         }
     }
 
+    /**
+     * checkBillStatus
+     */
     public void checkBillStatus()
     {
         if (this.PayStatus)
@@ -250,17 +318,30 @@ public class TollBillingSystem
         Utilities.awaitForEnter();
     }
 
-    public void displayAllBills()
+    /**
+     * displayAllTollEvents
+     */
+    public void displayAllTollEvents()
     {
-        for (TollEvent t : this.tollEvents)
+        if(this.tollEvents.size() != 0)
         {
-            System.out.printf("%-10s%-15s%-15s%-18s%-10s%-12s%-10s\n", "EventID", "VehicleID" , "VehicleReg", "VehicleType", "Cost"," ImageID", "Time");
-            System.out.printf("%-10s%-15s%-15s%-18s%-11.2f%-12d%-10s\n\n", t.getEventId(), t.getVehicleId(), t.getRegistrationNumber(), t.getVehicleType(), t.getCost(), t.getImageID(), t.getTimestamp().toString());
+            for (TollEvent t : this.tollEvents)
+            {
+                System.out.printf("%-10s%-15s%-15s%-18s%-10s%-12s%-10s\n", "EventID", "VehicleID", "VehicleReg", "VehicleType", "Cost", " ImageID", "Time");
+                System.out.printf("%-10s%-15s%-15s%-18s%-11.2f%-12d%-10s\n\n", t.getEventId(), t.getVehicleId(), t.getRegistrationNumber(), t.getVehicleType(), t.getCost(), t.getImageID(), t.getTimestamp().toString());
+            }
+            System.out.println("Total Fees owned : " + this.totalFee);
         }
-        System.out.println("Total Fees owned : " + this.totalFee);
+        else
+        {
+            System.out.println("No Toll Event has been found recently.");
+        }
         Utilities.awaitForEnter();
     }
 
+    /**
+     * payBill
+     */
     public void payBill()
     {
         if(this.totalFee != 0)

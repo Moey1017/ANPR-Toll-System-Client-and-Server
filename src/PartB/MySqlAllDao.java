@@ -15,11 +15,17 @@ import java.util.ArrayList;
 
 /**
  *
- * @author HP
+ * D00217017 Jing Sheng Moey SD2A
  */
 public class MySqlAllDao extends MySqlDao implements AllDAOInterface
 {
 
+    /**
+     *
+     * @param customerId
+     * @return a list a toll event by customer id 
+     * @throws DaoException
+     */
     @Override
     public ArrayList<TollEvent> getAllTollEventsByCustomerId(int customerId) throws DaoException
     {
@@ -32,7 +38,7 @@ public class MySqlAllDao extends MySqlDao implements AllDAOInterface
             //Get connection object using the methods in the super class (MySqlDao.java)...
             con = this.getConnection();
 
-            String query = "SELECT event_id, vehicle_id, vehicle_type, vehicle_reg,  image_id, timestamp, cost from toll_event natural join customer_vehicle natural join customer natural join vehicle natural join vehicle_type_cost where customer_id = ?;";
+            String query = "SELECT event_id, vehicle_id, vehicle_type, vehicle_reg,  image_id, timestamp, cost from toll_event natural join customer_vehicle natural join customer natural join vehicle natural join vehicle_type_cost where customer_id = ? AND timestamp BETWEEN SUBDATE(CURDATE(), INTERVAL 1 MONTH) AND NOW();";
             ps = con.prepareStatement(query);
             ps.setInt(1, customerId);
 
@@ -79,8 +85,14 @@ public class MySqlAllDao extends MySqlDao implements AllDAOInterface
         return eventList;
     }
     
+    /**
+     *
+     * @param customerId
+     * @return get customer details by customer id 
+     * @throws DaoException
+     */
     @Override
-    public double getTotalBill() throws DaoException
+    public double getTotalBill(int customerId) throws DaoException
     {
         Connection con = null;
         PreparedStatement ps = null;
@@ -91,8 +103,9 @@ public class MySqlAllDao extends MySqlDao implements AllDAOInterface
             //Get connection object using the methods in the super class (MySqlDao.java)...
             con = this.getConnection();
 
-            String query = "SELECT SUM(cost) from toll_event natural join customer_vehicle natural join customer natural join vehicle natural join vehicle_type_cost where customer_id = 1;";
+            String query = "SELECT SUM(cost) from toll_event natural join customer_vehicle natural join customer natural join vehicle natural join vehicle_type_cost where customer_id = ? AND timestamp BETWEEN SUBDATE(CURDATE(), INTERVAL 1 MONTH) AND NOW();";
             ps = con.prepareStatement(query);
+            ps.setInt(1, customerId);
 
             //Using a PreparedStatement to execute SQL...
             rs = ps.executeQuery();
@@ -127,6 +140,12 @@ public class MySqlAllDao extends MySqlDao implements AllDAOInterface
         return total;
     }
 
+    /**
+     *
+     * @param customerId
+     * @return
+     * @throws DaoException
+     */
     @Override
     public Customer getCustomerDetailLogIn(int customerId) throws DaoException
     {

@@ -24,6 +24,16 @@ public class TollEvent
     private double cost;
     private String registrationNumber;
 
+    /**
+     *
+     * @param eventId
+     * @param vehicleId
+     * @param ImageID
+     * @param timestamp
+     * @param vehicleType
+     * @param cost
+     * @param registrationNumber
+     */
     public TollEvent(int eventId, int vehicleId, long ImageID, Instant timestamp, String vehicleType, double cost, String registrationNumber)
     {
         this.eventId = eventId;
@@ -35,43 +45,71 @@ public class TollEvent
         this.registrationNumber = registrationNumber;
     }
 
+    /**
+     * setRegistrationNumbers
+     * @param registrationNumber
+     */
     public void setRegistrationNumber(String registrationNumber)
     {
         this.registrationNumber = registrationNumber;
     }
 
+    /**
+     * setEventId
+     * @param eventId
+     */
     public void setEventId(int eventId)
     {
         this.eventId = eventId;
     }
 
+    /**
+     * setVehicleId
+     * @param vehicleId
+     */
     public void setVehicleId(int vehicleId)
     {
         this.vehicleId = vehicleId;
     }
 
+    /**
+     * setVehicleType
+     * @param vehicleType
+     */
     public void setVehicleType(String vehicleType)
     {
         this.vehicleType = vehicleType;
     }
 
+    /**
+     * setCost
+     * @param cost
+     */
     public void setCost(double cost)
     {
         this.cost = cost;
     }
 
+    /**
+     * seteventId
+     * @param eventId
+     */
     public void seteventId(int eventId)
     {
         this.eventId = eventId;
     }
 
+    /**
+     * setVehicle_id
+     * @param vehicle_id
+     */
     public void setVehicle_id(String vehicle_id)
     {
         this.vehicleId = vehicleId;
     }
 
     /**
-     *
+     * setImageID
      * @param ImageID
      */
     public void setImageID(long ImageID)
@@ -80,7 +118,7 @@ public class TollEvent
     }
 
     /**
-     *
+     * setTimestamp
      * @param timestamp
      */
     public void setTimestamp(Instant timestamp)
@@ -88,29 +126,45 @@ public class TollEvent
         this.timestamp = timestamp;
     }
 
+    /**
+     * getVehicleType
+     * @return
+     */
     public String getVehicleType()
     {
         return vehicleType;
     }
 
+    /**
+     * getCost
+     * @return cost
+     */
     public double getCost()
     {
         return cost;
     }
 
+    /**
+     * getEventId
+     * @return eventId
+     */
     public int getEventId()
     {
         return eventId;
     }
 
+    /**
+     * getVehicleId
+     * @return vehicleId
+     */
     public int getVehicleId()
     {
         return vehicleId;
     }
 
     /**
-     *
-     * @return
+     * getImageID
+     * @return vehicleId
      */
     public long getImageID()
     {
@@ -118,14 +172,18 @@ public class TollEvent
     }
 
     /**
-     *
-     * @return
+     * getTimestamp
+     * @return timestamp
      */
     public Instant getTimestamp()
     {
         return timestamp;
     }
     
+    /**
+     * getRegistrationNumber
+     * @return registrationNumber
+     */
     public String getRegistrationNumber()
     {
         return registrationNumber;
@@ -135,9 +193,6 @@ public class TollEvent
     public String toString()
     {
         return "TollEvent{" + "eventId=" + eventId + ", vehicleId=" + vehicleId + ", ImageID=" + ImageID + ", timestamp=" + timestamp + ", vehicleType=" + vehicleType + ", cost=" + cost + ", registrationNumber=" + registrationNumber + '}';
-    }
-
- 
-        
+    }  
 
 }

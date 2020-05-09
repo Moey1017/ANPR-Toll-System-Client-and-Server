@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author HP
+ * D00217017 Jing Sheng Moey SD2A
  */
 public class Customer
 {
@@ -18,6 +18,12 @@ public class Customer
     private String customer_address;
     private ArrayList<Integer> carId_List;
 
+    /**
+     *
+     * @param customer_id
+     * @param customer_name
+     * @param customer_address
+     */
     public Customer(int customer_id, String customer_name, String customer_address)
     {
         this.customer_id = customer_id;
@@ -26,6 +32,9 @@ public class Customer
         this.carId_List = new ArrayList<>();
     }
 
+    /**
+     *
+     */
     public Customer()
     {
         this.customer_id = -1;
@@ -34,41 +43,73 @@ public class Customer
         this.carId_List = new ArrayList<>();
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Integer> getCarId_List()
     {
         return carId_List;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getCustomer_id()
     {
         return customer_id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCustomer_name()
     {
         return customer_name;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCustomer_address()
     {
         return customer_address;
     }
 
+    /**
+     *
+     * @param customer_id
+     */
     public void setCustomer_id(int customer_id)
     {
         this.customer_id = customer_id;
     }
 
+    /**
+     *
+     * @param customer_name
+     */
     public void setCustomer_name(String customer_name)
     {
         this.customer_name = customer_name;
     }
 
+    /**
+     *
+     * @param customer_address
+     */
     public void setCustomer_address(String customer_address)
     {
         this.customer_address = customer_address;
     }
 
+    /**
+     *
+     * @param carId_List
+     */
     public void setCarId_List(ArrayList<Integer> carId_List)
     {
         this.carId_List = carId_List;
