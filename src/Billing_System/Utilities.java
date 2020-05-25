@@ -3,9 +3,8 @@ Name: Jing Sheng Moey
 DNumber : D00217017
 Class: SD2A
  */
-package PartB;
+package Billing_System;
 
-import CA6.*;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

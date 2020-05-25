@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CA6;
+package DAO;
 
+import Server_Client.Vehicle;
 import Exceptions.DaoException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

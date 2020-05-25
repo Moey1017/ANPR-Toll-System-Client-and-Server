@@ -5,8 +5,8 @@
  */
 package CA5;
 
-import CA6.MySqlTollEventDAO;
-import CA6.TollEvent;
+import DAO.MySqlTollEventDAO;
+import Server_Client.TollEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.sql.Timestamp;

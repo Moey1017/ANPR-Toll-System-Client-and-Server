@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package PartB;
+package Billing_System;
 
-import CA6.*;
 import java.util.Objects;
 import java.time.Instant;
 

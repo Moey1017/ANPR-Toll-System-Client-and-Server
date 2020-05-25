@@ -6,7 +6,7 @@
  * of this code in every DAO.
  * 
  */
-package CA6;
+package Billing_System;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -30,7 +30,7 @@ public class MySqlDao
     public Connection getConnection() throws DaoException 
     {
         String driver = "com.mysql.jdbc.Driver";
-        String url = "jdbc:mysql://localhost:3306/toll_system";
+        String url = "jdbc:mysql://localhost:3306/toll_systemb";
         String username = "root";
         String password = "";
         Connection con = null;

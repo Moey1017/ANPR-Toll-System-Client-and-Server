@@ -3,7 +3,7 @@
  * D00217017 Jing Sheng Moey
  * SD2A
  */
-package CA6;
+package Server_Client;
 
 import java.io.File;
 import javax.json.Json;
@@ -114,26 +114,9 @@ public class Client
                             Iterator<TollEvent> t = list.iterator();
                             while (t.hasNext())
                             {
-                                TollEvent temp = t.next();
-                                JsonBuilderFactory factory = Json.createBuilderFactory(null);
-                                JsonArrayBuilder arrayBuilder = factory.createArrayBuilder();
-
-                                arrayBuilder.add(Json.createObjectBuilder()
-                                        .add("Reg", temp.getRegistration())
-                                        .add("ImageId", temp.getImageID())
-                                        .add("TimeStamp", temp.getTimestamp().toString())
-                                        .build()
-                                );
-                                // build the JsonArray
-                                JsonArray jsonArray = arrayBuilder.build();
-
-                                // wrap the JsonArray in a JsonObject and give the JsonArray a key name
-                                JsonObject jsonRootObject
-                                        = Json.createObjectBuilder()
-                                                .add("PacketType", "RegisterValidTollEvent")
-                                                .add("TollEvent", jsonArray)
-                                                .build();
-                                socketWriter.println(jsonRootObject.toString());
+                                TollEvent temp = t.next(); // get this Toll Event 
+                                String jsonRootObject = getStringJsonRootObject(temp);
+                                socketWriter.println(jsonRootObject);
                                 System.out.println("Toll Event has been sent.");
                                 totalValidRecordSent++;
                                 String getPacket = socketReader.nextLine();
@@ -167,25 +150,8 @@ public class Client
                         while (t.hasNext())
                         {
                             TollEvent temp = t.next();
-                            JsonBuilderFactory factory = Json.createBuilderFactory(null);
-                            JsonArrayBuilder arrayBuilder = factory.createArrayBuilder();
-
-                            arrayBuilder.add(Json.createObjectBuilder()
-                                    .add("Reg", temp.getRegistration())
-                                    .add("ImageId", temp.getImageID())
-                                    .add("TimeStamp", temp.getTimestamp().toString())
-                                    .build()
-                            );
-                            // build the JsonArray
-                            JsonArray jsonArray = arrayBuilder.build();
-
-                            // wrap the JsonArray in a JsonObject and give the JsonArray a key name
-                            JsonObject jsonRootObject
-                                    = Json.createObjectBuilder()
-                                            .add("PacketType", "RegisterInvalidTollEvent")
-                                            .add("TollEvent", jsonArray)
-                                            .build();
-                            socketWriter.println(jsonRootObject.toString());
+                            String jsonRootObject = getStringJsonRootObject(temp);
+                            socketWriter.println(jsonRootObject);
                             System.out.println("Toll Event has been sent.");
                             String getPacket = socketReader.nextLine();
                             sr = new StringReader(getPacket);
@@ -360,5 +326,34 @@ public class Client
         {
             System.out.println(m);
         }
+    }
+
+    /**
+     * Build JsonRootObject and turns into String
+     *
+     * @param t this toll Event
+     * @return a String of Json Root Object
+     */
+    String getStringJsonRootObject(TollEvent t)
+    {
+        JsonBuilderFactory factory = Json.createBuilderFactory(null);
+        JsonArrayBuilder arrayBuilder = factory.createArrayBuilder();
+
+        arrayBuilder.add(Json.createObjectBuilder()
+                .add("Reg", t.getRegistration())
+                .add("ImageId", t.getImageID())
+                .add("TimeStamp", t.getTimestamp().toString())
+                .build()
+        );
+        // build the JsonArray
+        JsonArray jsonArray = arrayBuilder.build();
+
+        // wrap the JsonArray in a JsonObject and give the JsonArray a key name
+        JsonObject jsonRootObject
+                = Json.createObjectBuilder()
+                        .add("PacketType", "RegisterValidTollEvent")
+                        .add("TollEvent", jsonArray)
+                        .build();
+        return "";
     }
 }
